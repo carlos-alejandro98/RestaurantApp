@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { useFormik } from "formik";
-import * as Yup from 'yup';
+import React, { useContext, useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 import { FirebaseContext } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import FileUploader from 'react-firebase-file-uploader';
@@ -9,18 +9,20 @@ const NuevoPlatillo = () => {
 
     // state para las imagenes
     const [subiendo, guardarSubiendo] = useState(false);
-    const [progreso, guardarProgreso] = useState(0);
-    const [urlimagen, guardarUrlimagen] = useState('');
+    const [progreso, guardarProgreso ] = useState(0);
+    const [ urlimagen, guardarUrlimagen] = useState('');
+
 
     // Context con las operaciones de firebase
     const { firebase } = useContext(FirebaseContext);
 
-    //console.log(firebase);
-
+    // console.log(firebase);
+    
     // Hook para redireccionar
     const navigate = useNavigate();
 
-    // Validación y leer los datos del formulario
+
+    // validación y leer los datos del formulario
     const formik = useFormik({
         initialValues: {
             nombre: '',
@@ -28,27 +30,29 @@ const NuevoPlatillo = () => {
             categoria: '',
             imagen: '',
             descripcion: '',
-        },
+        }, 
         validationSchema: Yup.object({
             nombre: Yup.string()
-                .min(3, 'Los platillos deben tener al menos 3 caracteres')
-                .required('El nombre del platillo es obligatorio'),
+                        .min(3, 'Los Platillos deben tener al menos 3 caracteres')
+                        .required('El Nombre del platillo es obligatorio'),
             precio: Yup.number()
-                .min(1, 'Debes agregar un número')
-                .required('El precio es obligatorio'),
+                        .min(1, 'Debes agregar un número')
+                        .required('El Precio es obligatorio'),
             categoria: Yup.string()
-                .required('La categoría es obligatoria'),
+                        .required('La categoría es obligatoria'),
             descripcion: Yup.string()
-                .min(10, 'La descripción debe contener al menos 10 caracteres')
-                .required('La descripción es obligatoria'),
+                        .min(10, 'La descripción debe ser más larga')
+                        .required('La descripción es obligatoria'),
+                        
         }),
         onSubmit: platillo => {
             try {
                 platillo.existencia = true;
                 platillo.imagen = urlimagen;
+
                 firebase.db.collection('productos').add(platillo);
 
-                // Redireccionar 
+                // Redireccionar
                 navigate('/menu');
             } catch (error) {
                 console.log(error);
@@ -71,10 +75,10 @@ const NuevoPlatillo = () => {
 
         // Almacenar la URL de destino
         const url = await firebase
-            .storage
-            .ref("productos")
-            .child(nombre)
-            .getDownloadURL();
+                .storage
+                .ref("productos")
+                .child(nombre)
+                .getDownloadURL();
 
         console.log(url);
         guardarUrlimagen(url);
@@ -86,8 +90,7 @@ const NuevoPlatillo = () => {
     }
 
 
-
-    return (
+    return ( 
         <>
             <h1 className="text-3xl font-light mb-4">Agregar Platillo</h1>
 
@@ -98,7 +101,7 @@ const NuevoPlatillo = () => {
                     >
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">Nombre</label>
-                            <input
+                            <input 
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="nombre"
                                 type="text"
@@ -108,20 +111,21 @@ const NuevoPlatillo = () => {
                                 onBlur={formik.handleBlur}
                             />
                         </div>
-
-                        {formik.touched.nombre && formik.errors.nombre ? (
+                        { formik.touched.nombre && formik.errors.nombre ? (
                             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5" role="alert">
-                                <p>{formik.errors.nombre}</p>
+                                <p className="font-bold">Hubo un error:</p>
+                                <p>{formik.errors.nombre} </p>
                             </div>
-                        ) : null}
+                        ) : null }
+
 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">Precio</label>
-                            <input
+                            <input 
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="precio"
                                 type="number"
-                                placeholder="$1000"
+                                placeholder="$20"
                                 min="0"
                                 value={formik.values.precio}
                                 onChange={formik.handleChange}
@@ -129,17 +133,18 @@ const NuevoPlatillo = () => {
                             />
                         </div>
 
-                        {formik.touched.precio && formik.errors.precio ? (
+                        { formik.touched.precio && formik.errors.precio ? (
                             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5" role="alert">
-                                <p>{formik.errors.precio}</p>
+                                <p className="font-bold">Hubo un error:</p>
+                                <p>{formik.errors.precio} </p>
                             </div>
-                        ) : null}
+                        ) : null }
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">Categoría</label>
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">Categoría</label>
                             <select
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="categoria"
+                                id="precio"
                                 name="categoria"
                                 value={formik.values.categoria}
                                 onChange={formik.handleChange}
@@ -149,18 +154,20 @@ const NuevoPlatillo = () => {
                                 <option value="desayuno">Desayuno</option>
                                 <option value="comida">Comida</option>
                                 <option value="cena">Cena</option>
-                                <option value="bebida">Bebida</option>
+                                <option value="bebida">Bebidas</option>
                                 <option value="postre">Postre</option>
                                 <option value="ensalada">Ensalada</option>
 
                             </select>
                         </div>
 
-                        {formik.touched.categoria && formik.errors.categoria ? (
+                        { formik.touched.categoria && formik.errors.categoria ? (
                             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5" role="alert">
-                                <p>{formik.errors.categoria}</p>
+                                <p className="font-bold">Hubo un error:</p>
+                                <p>{formik.errors.categoria} </p>
                             </div>
-                        ) : null}
+                        ) : null }
+
 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imagen">Imagen</label>
@@ -177,49 +184,49 @@ const NuevoPlatillo = () => {
                             />
                         </div>
 
-                        {subiendo && (
+                        { subiendo && (
                             <div className="h-12 relative w-full border">
                                 <div className="bg-green-500 absolute left-0 top-0 text-white px-2 text-sm h-12 flex items-center" style={{ width: `${progreso}%` }}>
-                                    {progreso}%
+                                    {progreso} % 
                                 </div>
                             </div>
-                        )}
+                        ) }
 
                         {urlimagen && (
                             <p className="bg-green-500 text-white p-3 text-center my-5">
                                 La imagen se subió correctamente
                             </p>
-                        )}
+                        ) }
 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="descripcion">Descripción</label>
-                            <textarea
+                            <textarea 
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
                                 id="descripcion"
-                                placeholder="Descripción del plataillo"
+                                placeholder="Descripción del Platillo"
                                 value={formik.values.descripcion}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                             ></textarea>
                         </div>
 
-                        {formik.touched.descripcion && formik.errors.descripcion ? (
+                        { formik.touched.descripcion && formik.errors.descripcion ? (
                             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-5" role="alert">
-                                <p>{formik.errors.descripcion}</p>
+                                <p className="font-bold">Hubo un error:</p>
+                                <p>{formik.errors.descripcion} </p>
                             </div>
-                        ) : null}
+                        ) : null }
 
                         <input
                             type="submit"
                             className="bg-gray-800 hover:bg-gray-900 w-full mt-5 p-2 text-white uppercase font-bold"
                             value="Agregar Platillo"
                         />
-
                     </form>
                 </div>
             </div>
         </>
-    );
+     );
 }
-
+ 
 export default NuevoPlatillo;
