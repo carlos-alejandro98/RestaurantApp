@@ -6444,7 +6444,7 @@
   "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-2.17.1.tgz"
   "version" "2.17.1"
 
-"react-native-vector-icons@^7.0.0":
+"react-native-vector-icons@^7.0.0", "react-native-vector-icons@^7.1.0":
   "integrity" "sha512-V2a1zJ4i+kS8O4j183gIwX14St9AxxXabxwYpFBgRhvr2NDXyFcjHDEAgrOYYlt2W57e20aN1tBDU/I+wn9WtQ=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-7.1.0.tgz"
   "version" "7.1.0"

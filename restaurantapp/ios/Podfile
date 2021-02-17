@@ -9,6 +9,8 @@ target 'restaurantapp' do
   use_react_native!(:path => config["reactNativePath"])
 
   target 'restaurantappTests' do
+    # Pods for restaurantapp
+    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
     inherit! :complete
     # Pods for testing
   end
