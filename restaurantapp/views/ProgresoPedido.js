@@ -13,7 +13,6 @@ import PedidoContext from '../context/pedidos/pedidosContext'
 import firebase from '../firebase';
 import Countdown from 'react-countdown';
 import LottieView from 'lottie-react-native';
-import { constant } from 'lodash';
 
 
 const ProgresoPedido = () => {
@@ -73,6 +72,13 @@ const ProgresoPedido = () => {
                                 renderer={renderer}
                             />
                         </Text>
+                        <View style={styles.lottieView}>
+                            <LottieView
+                                source={require('../animations/40101-waiting-pigeon.json')}
+                                autoPlay
+                                loop
+                            />
+                        </View>
                     </>
                 )}
 
@@ -80,6 +86,14 @@ const ProgresoPedido = () => {
                     <>
                         <H1 style={styles.textoCompletado}>Orden Lista</H1>
                         <H3 style={styles.textoCompletado}>Por favor, pase a recoger su pedido.</H3>
+
+                        <View style={{ height: '45%' }}>
+                            <LottieView
+                                source={require('../animations/49008-food-delivery-coronavirus.json')}
+                                autoPlay
+                                loop
+                            />
+                        </View>
 
                         <Button
                             style={[globalStyles.boton, { marginTop: 100 }]}
@@ -89,6 +103,8 @@ const ProgresoPedido = () => {
                         >
                             <Text style={globalStyles.botonTexto}>Comenzar Una Orden Nueva</Text>
                         </Button>
+
+
                     </>
                 )}
             </View>
@@ -97,7 +113,7 @@ const ProgresoPedido = () => {
 }
 
 const styles = StyleSheet.create({
-    lottieView:{
+    lottieView: {
         width: '100%',
         height: '100%'
     },

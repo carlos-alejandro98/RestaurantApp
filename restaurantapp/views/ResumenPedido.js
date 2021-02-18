@@ -17,7 +17,6 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import globalStyles from '../styles/global';
 import firebase from '../firebase'
-
 import PedidoContext from '../context/pedidos/pedidosContext';
 
 const ResumenPedido = () => {
